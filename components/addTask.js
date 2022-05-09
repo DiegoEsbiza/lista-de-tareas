@@ -8,11 +8,11 @@ export const addTask = (event) => {
   list.appendChild(task); //agregado del nuevo elemento "li" al elemento padre ("ul").
 };
 
-const taskList = [];
-
 const createTask = (event) => {
   //funcion crear tarea, mediante "arrow function" (funcion anonima).
   event.preventDefault(); //evita comportamiento por defecto.
+  const taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+  console.log(taskList);
   const input = document.querySelector("[data-form-input]"); //selecciona el "input text" mediante el atributo "data" => data-form-input.
   const calendar = document.querySelector("[data-form-date]"); //selecciona el "input datetime" en la constante "calendar"
   const date = calendar.value; //se crea la constante "date" y se le asigna la información de la constante "calendar"
