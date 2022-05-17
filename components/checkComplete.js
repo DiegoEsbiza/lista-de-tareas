@@ -7,11 +7,10 @@ const checkComplete = () => {
 };
 
 const completeTask = (event) => {
-  //creando funcion para que cambie de color clickear en el target (el icono "i")
-  const element = event.target; //indicando que la funcion se ejecutara al clickear en el taget
-  element.classList.toggle("fas"); //mediante toggle se cambiara el color del icono al clickear en el
-  element.classList.toggle("completeIcon"); //clase css para cambiar el color al clickear en el icono "i"
-  element.classList.toggle("far"); //mediante toggle se cambiara el color del icono al clickear en el
+  const element = event.target;
+  element.classList.toggle("fas");
+  element.classList.toggle("completeIcon");
+  element.classList.toggle("far"); //
 };
 
 export default checkComplete;

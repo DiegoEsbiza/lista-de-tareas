@@ -1,18 +1,23 @@
 import checkComplete from "./checkComplete.js";
 import deleteIcon from "./deleteIcon.js";
+import { displayTasks } from "./readTasks.js";
 
 export const addTask = (event) => {
-  event.preventDefault(); //evita comportamiento por defecto.
+  event.preventDefault();
 
-  const list = document.querySelector("[date-list]"); //elemento padre ("ul") que se le va a crear el hijo (mediante appenchild).
-  const input = document.querySelector("[data-form-input]"); //selecciona "input text" mediante "data" => data-form-input.
-  const calendar = document.querySelector("[data-form-date]"); //selecciona "input datetime" en constante "calendar"
+  const list = document.querySelector("[date-list]");
+  const input = document.querySelector("[data-form-input]");
+  const calendar = document.querySelector("[data-form-date]");
 
-  const value = input.value; //captura valor (value) del "input text".
-  const date = calendar.value; // crea constante "date" y se asigna información de constante "calendar"
+  const value = input.value;
+  const date = calendar.value;
   const dateFormat = moment(date).format("DD/MM/YY");
 
-  input.value = ""; //reiniciar contenido del input text.
+  if (value === "" || date === "") {
+    return;
+  }
+
+  input.value = "";
   calendar.value = "";
 
   const taskObj = {
@@ -20,31 +25,31 @@ export const addTask = (event) => {
     dateFormat,
   };
 
+  list.innerHTML = "";
+
   const taskList = JSON.parse(localStorage.getItem("tasks")) || [];
   taskList.push({ value, dateFormat });
   localStorage.setItem("tasks", JSON.stringify(taskList));
 
-  const task = createTask(taskObj);
-  list.appendChild(task); //agregadonuevo elemento "li" al padre ("ul").
+  displayTasks();
 };
 
 export const createTask = ({ value, dateFormat }) => {
-  //funcion crear tarea, mediante "arrow function" (funcion anonima).
-  const task = document.createElement("li"); //creación del elemento "li".
+  const task = document.createElement("li");
   task.classList.add("card");
 
-  const taskContent = document.createElement("div"); //creando elemento padre "div".
+  const taskContent = document.createElement("div");
 
-  const titleTask = document.createElement("span"); //creando elemnto span que contiene "value".
-  titleTask.classList.add("task"); //agregando clase "task" al span "titleTask" creado.
-  titleTask.innerText = value; //agregandole "value" ingresado en input al "task" creado.
+  const titleTask = document.createElement("span");
+  titleTask.classList.add("task");
+  titleTask.innerText = value;
   taskContent.appendChild(checkComplete());
   taskContent.appendChild(titleTask);
-  
-  const dateElement = document.createElement("span"); //creando elemento que mostrara la fecha en la tarea creada
-  dateElement.innerHTML = dateFormat; //elemento "dateElement" sera igual a dateformat"
-  task.appendChild(taskContent); //contenido que tendra nuevo elemento "li" creado.
-  task.appendChild(dateElement); //agregando fecha a tarea creada
-  task.appendChild(deleteIcon()); //agregado icono borrar.
+
+  const dateElement = document.createElement("span");
+  dateElement.innerHTML = dateFormat;
+  task.appendChild(taskContent);
+  task.appendChild(dateElement);
+  task.appendChild(deleteIcon());
   return task;
 };
